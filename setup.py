@@ -11,7 +11,7 @@ setup(
 	name='momo',
 	version=version,
 	description='momo integration',
-	author='Isaac larbi',
+	author='Isaac Larbi',
 	author_email='isaac.larbi@access89.com',
 	packages=find_packages(),
 	zip_safe=False,
