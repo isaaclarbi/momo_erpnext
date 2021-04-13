@@ -49,6 +49,18 @@ class PaystackSettings(Document):
             string.ascii_letters + string.digits) for n in range(16)])
 		secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
 		random_ref = rand
-		client = TransactionResource(secret_key, random_ref)
+		client = TransactionResource(secret_key, slug)
 		response = client.initialize(amount*100,email)
 		return response['data']['authorization_url']
+	
+	@frappe.whitelist(allow_guest=True)
+	def verify_payment(*args, **kwargs):
+		# args = frappe._dict(args)
+		if(frappe.request and frappe.request.data):
+			try:
+				data = json.loads(frappe.request.data)
+			except ValueError:
+				#woocommerce returns 'webhook_id=value' for the first request which is not JSON
+				data = frappe.request.data
+			if(data[]):
+				pass
