@@ -3,7 +3,7 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
-
+import json
 
 import frappe
 import random
@@ -53,6 +53,7 @@ class PaystackSettings(Document):
 		response = client.initialize(amount*100,email)
 		return response['data']['authorization_url']
 	
+	
 	@frappe.whitelist(allow_guest=True)
 	def verify_payment(*args, **kwargs):
 		# args = frappe._dict(args)
@@ -62,5 +63,3 @@ class PaystackSettings(Document):
 			except ValueError:
 				#woocommerce returns 'webhook_id=value' for the first request which is not JSON
 				data = frappe.request.data
-			if(data[]):
-				pass
