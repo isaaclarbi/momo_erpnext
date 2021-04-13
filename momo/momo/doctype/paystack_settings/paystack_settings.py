@@ -76,9 +76,9 @@ class PaystackSettings(Document):
 	
 	
 	@frappe.whitelist(allow_guest=True)
-	def verify_payment(**args):
-		# args = frappe._dict(args)
+	def callwebhook(**args):
 		frappe.log_error("data", "verify payment function called")
+		# args = frappe._dict(args)
 		return "done"
 
 		# if(frappe.request and frappe.request.data):
