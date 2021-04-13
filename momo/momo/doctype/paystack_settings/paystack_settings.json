@@ -28,7 +28,7 @@
   },
   {
    "fieldname": "secret_key",
-   "fieldtype": "Data",
+   "fieldtype": "Password",
    "in_list_view": 1,
    "label": "Secret Key",
    "reqd": 1
@@ -36,7 +36,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-04-13 16:57:01.675682",
+ "modified": "2021-04-13 20:42:35.851699",
  "modified_by": "Administrator",
  "module": "Momo",
  "name": "Paystack Settings",
