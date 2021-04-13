@@ -73,20 +73,21 @@ class PaystackSettings(Document):
 		return response['data']['authorization_url']
 	
 	
-	# @frappe.whitelist(allow_guest=True)
-	def verify_payment(**args):
+	@frappe.whitelist(allow_guest=True)
+	def verify_payment(*args):
 		# args = frappe._dict(args)
 		frappe.log_error("data", "verify payment function called")
-		return "done"
+		
+		return json.loads(frappe.request.data)
+		
+		# if(frappe.request and frappe.request.data):
+		# 	try:
+		# 		data = json.loads(frappe.request.data)
+		# 		# if(data["event"]== "paymentrequest.success"):
+		# 		frappe.log_error(data, "Paystack Request Data")
 
-		if(frappe.request and frappe.request.data):
-			try:
-				data = json.loads(frappe.request.data)
-				# if(data["event"]== "paymentrequest.success"):
-				frappe.log_error(data, "Paystack Request Data")
 
-
-			except ValueError:
-				#woocommerce returns 'webhook_id=value' for the first request which is not JSON
-				data = frappe.request.data
+		# 	except ValueError:
+		# 		#woocommerce returns 'webhook_id=value' for the first request which is not JSON
+		# 		data = frappe.request.data
 			
