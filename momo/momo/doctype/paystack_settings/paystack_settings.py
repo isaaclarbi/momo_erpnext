@@ -66,7 +66,7 @@ class PaystackSettings(Document):
 		# res = r.json()
 		# return res["data"]["authorization_url"]
 
-		frappe.log_error("Create payment request", "Second arg")
+		frappe.log_console("Create payment request", "Second arg")
 		rand = ''.join([random.choice(
             string.ascii_letters + string.digits) for n in range(16)])
 		secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
