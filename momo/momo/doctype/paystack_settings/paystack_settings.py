@@ -79,6 +79,7 @@ class PaystackSettings(Document):
 	def verify_payment(**args):
 		# args = frappe._dict(args)
 		frappe.log_error("data", "verify payment function called")
+		return "done"
 
 		# if(frappe.request and frappe.request.data):
 		# 	try:
