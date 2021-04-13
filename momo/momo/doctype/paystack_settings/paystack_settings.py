@@ -50,7 +50,7 @@ class PaystackSettings(Document):
 		secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
 		random_ref = rand
 		client = TransactionResource(secret_key, slug)
-		response = client.initialize(amount*100,email)
+		response = client.initialize(amount*100,email,ref=slug)
 		return response['data']['authorization_url']
 	
 	
