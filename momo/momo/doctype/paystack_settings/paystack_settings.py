@@ -46,32 +46,34 @@ class PaystackSettings(Document):
 			'payment_request': kwargs.get('order_id'),
 			'customer_name': kwargs.get('payer_name')
 		}
-		secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
 
-		url = "https://api.paystack.co/transaction/initialize"
-		PARAMS = {
-			"address": amount,
-			"email": email
-			"metadata": metadata
-		}
-
-		HEADERS = {
-			"Authorization": "Bearer "+secret_key,
-   			"Cache-Control": "no-cache",
-		}
-
-		r = requests.post(url, params = PARAMS, headers=HEADERS)
-		res = r.json()
-		return res["data"]["authorization_url"]
-
-
-		# rand = ''.join([random.choice(
-        #     string.ascii_letters + string.digits) for n in range(16)])
+		
 		# secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
-		# random_ref = rand
-		# client = TransactionResource(secret_key, random_ref)
-		# response = client.initialize(amount*100,email)
-		# return response['data']['authorization_url']
+
+		# url = "https://api.paystack.co/transaction/initialize"
+		# PARAMS = {
+		# 	"address": amount,
+		# 	"email": email
+		# 	"metadata": metadata
+		# }
+
+		# HEADERS = {
+		# 	"Authorization": "Bearer "+secret_key,
+   		# 	"Cache-Control": "no-cache",
+		# }
+
+		# r = requests.post(url, params = PARAMS, headers=HEADERS)
+		# res = r.json()
+		# return res["data"]["authorization_url"]
+
+
+		rand = ''.join([random.choice(
+            string.ascii_letters + string.digits) for n in range(16)])
+		secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
+		random_ref = rand
+		client = TransactionResource(secret_key, random_ref)
+		response = client.initialize(amount*100,email)
+		return response['data']['authorization_url']
 	
 	
 	# @frappe.whitelist(allow_guest=True)
