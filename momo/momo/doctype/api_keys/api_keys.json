@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "autoname": "field:gateway_name",
  "creation": "2021-04-13 16:12:42.993696",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -13,22 +14,29 @@
   {
    "fieldname": "gateway_name",
    "fieldtype": "Data",
-   "label": "Payment Gateway Name"
+   "in_list_view": 1,
+   "label": "Payment Gateway Name",
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "public_key",
    "fieldtype": "Data",
-   "label": "Public Key"
+   "in_list_view": 1,
+   "label": "Public Key",
+   "reqd": 1
   },
   {
    "fieldname": "secret_key",
-   "fieldtype": "Data",
-   "label": "Secret Key"
+   "fieldtype": "Password",
+   "in_list_view": 1,
+   "label": "Secret Key",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-04-13 16:12:42.993696",
+ "modified": "2021-04-13 16:18:53.734273",
  "modified_by": "Administrator",
  "module": "Momo",
  "name": "API Keys",
