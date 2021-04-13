@@ -2,12 +2,10 @@
 # Copyright (c) 2021, Isaac larbi and contributors
 # For license information, please see license.txt
 
+from __future__ import unicode_literals
 import random
-
 import string
-
 import frappe
-# import paystakk
 from paystack.resource import TransactionResource
 from frappe import _
 from frappe.integrations.utils import create_payment_gateway
@@ -16,9 +14,6 @@ from frappe.utils import call_hook_method, nowdate
 from requests import RequestException, ConnectionError
 
 
-from __future__ import unicode_literals
-# import frappe
-from frappe.model.document import Document
 
 SUPPORTED_CURRENCIES = ['GHS']
 
