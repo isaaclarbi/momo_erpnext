@@ -66,7 +66,6 @@ class PaystackSettings(Document):
 		# res = r.json()
 		# return res["data"]["authorization_url"]
 
-		frappe.log_console("Create payment request", "Second arg")
 		rand = ''.join([random.choice(
             string.ascii_letters + string.digits) for n in range(16)])
 		secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
@@ -83,6 +82,7 @@ class PaystackSettings(Document):
 			try:
 				data = json.loads(frappe.request.data)
 				# if(data["event"]== "paymentrequest.success"):
+				frappe.log_error(data, "Paystack Request Data")
 
 
 			except ValueError:
