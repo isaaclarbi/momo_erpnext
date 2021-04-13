@@ -49,7 +49,7 @@ class PaystackSettings(Document):
             string.ascii_letters + string.digits) for n in range(16)])
 		secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
 		random_ref = rand
-		client = TransactionResource(secret_key, slug)
+		client = TransactionResource(secret_key, random_ref)
 		response = client.initialize(amount*100,email)
 		return response['data']['authorization_url']
 	
