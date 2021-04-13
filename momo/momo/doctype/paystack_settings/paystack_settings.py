@@ -47,7 +47,7 @@ class PaystackSettings(Document):
 			'customer_name': kwargs.get('payer_name')
 		}
 
-		
+
 		# secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
 
 		# url = "https://api.paystack.co/transaction/initialize"
@@ -66,7 +66,7 @@ class PaystackSettings(Document):
 		# res = r.json()
 		# return res["data"]["authorization_url"]
 
-
+		frappe.log_error("Create payment request", "Second arg")
 		rand = ''.join([random.choice(
             string.ascii_letters + string.digits) for n in range(16)])
 		secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
@@ -76,16 +76,16 @@ class PaystackSettings(Document):
 		return response['data']['authorization_url']
 	
 	
-	# @frappe.whitelist(allow_guest=True)
-	# def verify_payment(*args, **kwargs):
-	# 	# args = frappe._dict(args)
-	# 	if(frappe.request and frappe.request.data):
-	# 		try:
-	# 			data = json.loads(frappe.request.data)
-	# 			# if(data["event"]== "paymentrequest.success"):
+	@frappe.whitelist(allow_guest=True)
+	def verify_payment(*args, **kwargs):
+		# args = frappe._dict(args)
+		if(frappe.request and frappe.request.data):
+			try:
+				data = json.loads(frappe.request.data)
+				# if(data["event"]== "paymentrequest.success"):
 
 
-	# 		except ValueError:
-	# 			#woocommerce returns 'webhook_id=value' for the first request which is not JSON
-	# 			data = frappe.request.data
+			except ValueError:
+				#woocommerce returns 'webhook_id=value' for the first request which is not JSON
+				data = frappe.request.data
 			
