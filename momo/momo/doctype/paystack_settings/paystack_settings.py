@@ -4,17 +4,15 @@
 
 from __future__ import unicode_literals
 import json
-
 import frappe
 import random
+from frappe import _
 import string
 import requests
 from paystack.resource import TransactionResource
-from frappe import _
 from frappe.integrations.utils import create_payment_gateway
 from frappe.model.document import Document
 from frappe.utils import call_hook_method, nowdate
-from requests import RequestException, ConnectionError
 
 SUPPORTED_CURRENCIES = ['GHS']
 
@@ -71,24 +69,24 @@ class PaystackSettings(Document):
 		secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
 		random_ref = rand
 		client = TransactionResource(secret_key, random_ref)
-		response = client.initialize(amount*100,email)
+		response = client.initialize(amount,email)
 		return response['data']['authorization_url']
 	
 	
-	@frappe.whitelist(allow_guest=True)
-	def callwebhook(**args):
-		frappe.log_error("data", "verify payment function called")
+	# @frappe.whitelist(allow_guest=True)
+	def verify_payment(**args):
 		# args = frappe._dict(args)
+		frappe.log_error("data", "verify payment function called")
 		return "done"
 
-		# if(frappe.request and frappe.request.data):
-		# 	try:
-		# 		data = json.loads(frappe.request.data)
-		# 		# if(data["event"]== "paymentrequest.success"):
-		# 		frappe.log_error(data, "Paystack Request Data")
+		if(frappe.request and frappe.request.data):
+			try:
+				data = json.loads(frappe.request.data)
+				# if(data["event"]== "paymentrequest.success"):
+				frappe.log_error(data, "Paystack Request Data")
 
 
-		# 	except ValueError:
-		# 		#woocommerce returns 'webhook_id=value' for the first request which is not JSON
-		# 		data = frappe.request.data
+			except ValueError:
+				#woocommerce returns 'webhook_id=value' for the first request which is not JSON
+				data = frappe.request.data
 			
