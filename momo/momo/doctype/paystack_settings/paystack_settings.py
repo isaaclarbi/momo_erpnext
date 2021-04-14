@@ -111,7 +111,7 @@ def initialize_payment():
 
 		r = requests.post(url, params = PARAMS, headers=HEADERS)
 		res = r.json()
-		return res["data"]["authorization_url"]
+		return res
 	else:
 		return False
 		
