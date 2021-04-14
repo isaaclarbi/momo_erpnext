@@ -48,7 +48,7 @@ class PaystackSettings(Document):
 
 		url = "https://api.paystack.co/transaction/initialize/"
 		headers = {
-			"Authorization": "Bearer "+secret_key,
+			"Authorization": "Bearer ",
 			"Cache-Control": "no-cache",
 			"Content-Type": "application/json"
 		}
