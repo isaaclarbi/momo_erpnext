@@ -8,7 +8,8 @@
  "field_order": [
   "gateway_name",
   "public_key",
-  "secret_key"
+  "secret_key",
+  "section_break_4"
  ],
  "fields": [
   {
@@ -32,11 +33,15 @@
    "in_list_view": 1,
    "label": "Secret Key",
    "reqd": 1
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-04-13 20:42:35.851699",
+ "modified": "2021-04-13 17:29:06.727273",
  "modified_by": "Administrator",
  "module": "Momo",
  "name": "Paystack Settings",
