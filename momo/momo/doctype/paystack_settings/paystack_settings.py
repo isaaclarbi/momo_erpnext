@@ -48,7 +48,7 @@ class PaystackSettings(Document):
 
 		url = "https://api.paystack.co/transaction/initialize/"
 		headers = {
-			"Authorization": "Bearer ",
+			"Authorization": "Bearer "+secret_key,
 			"Cache-Control": "no-cache",
 			"Content-Type": "application/json"
 		}
@@ -71,7 +71,7 @@ class PaystackSettings(Document):
 			authorization_url = res_json['data']['authorization_url']
 			return authorization_url
 		elif(failed):
-			frappe.throw(_("Request failed with message: "+ res_json['message']))
+			frappe.throw("Request failed with message: "+ res_json['message'])
 
 
 		# rand = ''.join([random.choice(
