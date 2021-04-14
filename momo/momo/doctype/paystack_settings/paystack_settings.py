@@ -71,7 +71,7 @@ class PaystackSettings(Document):
 			authorization_url = res_json['data']['authorization_url']
 			return authorization_url
 		elif(failed):
-			frappe.throw("Request failed with message: "+ res_json['message'])
+			frappe.throw(_("Request failed with message: "+ res_json['message']))
 
 
 		# rand = ''.join([random.choice(
