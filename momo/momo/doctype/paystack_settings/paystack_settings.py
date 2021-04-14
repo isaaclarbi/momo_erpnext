@@ -81,22 +81,17 @@ class PaystackSettings(Document):
 
 @frappe.whitelist(allow_guest=True)
 def verify_payment():
-    # Use this if you call the method via get url https://kellypee.theadvisorylab.net/api/method/erpnext.accounts.doctype.payment_request.payment_request.make_payment_request?dn=SAL-ORD-2021-00002&dt=Sales%20Order&submit_doc=1&order_type=Shopping%20Cart
-    # def verify_payment(**args):
-    # args = frappe._dict(args)
-    # ref_doc = frappe.get_doc(args.dt, args.dn)
     if(frappe.request and frappe.request.data):
         res = json.loads(frappe.request.data)
         if(res["event"] == "charge.success"):
-            frappe.log_error(res["data"],'charge.success')
-            frappe.log_error(res["data"]["metadata"],'metadata')
-            frappe.local.response['http_status_code'] = 200 
-            
+            frappe.log_error(res["data"], 'charge.success')
+            frappe.log_error(res["data"]["metadata"], 'metadata')
+            frappe.local.response['http_status_code'] = 200
         else:
             pass
     else:
         return frappe.throw("No data")
 
-#use postman to send a simulated paystack success event and write the logic to update the appropriate sale order.
-		#write another function to run and release held up stocks after a set time
-        #Return res 200 for paystack to stop sending webhook event
+# use postman to send a simulated paystack success event and write the logic to update the appropriate sale order.
+        # write another function to run and release held up stocks after a set time
+        # Return res 200 for paystack to stop sending webhook event
