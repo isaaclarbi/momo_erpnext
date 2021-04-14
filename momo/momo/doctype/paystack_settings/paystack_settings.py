@@ -88,7 +88,8 @@ def verify_payment():
     if(frappe.request and frappe.request.data):
         res = json.loads(frappe.request.data)
         if(res["event"] == "paymentrequest.success"):
-            return res["data"]["metadata"]["order_id"]
+			frappe.local.response['http_status_code'] = 200
+            # return res["data"]["metadata"]["order_id"]
         else:
             pass
     else:
