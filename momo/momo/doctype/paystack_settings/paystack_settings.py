@@ -57,7 +57,6 @@ class PaystackSettings(Document):
 			"amount": amount,
 			"currency": "GHS",
 			"email": email,
-			"metadata": metadata
 		}
 
 		r = requests.post(url, data=json.dumps(data), headers=headers)
