@@ -87,10 +87,12 @@ def verify_payment():
     # ref_doc = frappe.get_doc(args.dt, args.dn)
 
     if(frappe.request and frappe.request.data):
-        data = json.loads(frappe.request.data)
-        # if(data["event"]== "paymentrequest.success"):
-		# use postman to send a simulated paystack success event and write the logic to update the appropriate sale order.
+		res = json.loads(frappe.request.data)
+        if(res["event"] == "paymentrequest.success"):
+			
+			return res["data"]["metadata"]["order_id"]
+		#use postman to send a simulated paystack success event and write the logic to update the appropriate sale order.
 		#write another function to run and release held up stocks after a set time
-        return data # Return res 200 for paystack to stop sending webhook event
+        #Return res 200 for paystack to stop sending webhook event
     else:
         return False
