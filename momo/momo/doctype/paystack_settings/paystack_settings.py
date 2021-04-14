@@ -75,7 +75,7 @@ class PaystackSettings(Document):
 	
 @frappe.whitelist(allow_guest=True)
 def verify_payment():
-	#Use this if you send the data 
+	#Use this if you call the method via get 
 	#def verify_payment(**args):
 	# args = frappe._dict(args)
 	# ref_doc = frappe.get_doc(args.dt, args.dn)
@@ -91,3 +91,28 @@ def verify_payment():
 	else:
 		return False
 		
+@frappe.whitelist(allow_guest=True)
+def initialize_payment():
+	if(frappe.request and frappe.request.data):
+		data = json.loads(frappe.request.data)
+		
+		url = "https://api.paystack.co/transaction/initialize"
+		
+		PARAMS = {
+			"amount": 10000,
+			"email": "isaac.larbi@access89.com"
+		}
+
+		HEADERS = {
+			"Authorization": "Bearer sk_test_263963288e790e94b572398d0ee801a57e0a7b9c",
+			"Cache-Control": "no-cache",
+			"Content-Type": "application/json"
+		}
+
+		r = requests.post(url, params = PARAMS, headers=HEADERS)
+		res = r.json()
+		return res["data"]["authorization_url"]
+	else:
+		return False
+		
+	
