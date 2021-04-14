@@ -89,6 +89,6 @@ def verify_payment():
     if(frappe.request and frappe.request.data):
         data = json.loads(frappe.request.data)
         # if(data["event"]== "paymentrequest.success"):
-        return True
+        return data
     else:
         return False
