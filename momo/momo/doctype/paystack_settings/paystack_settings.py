@@ -82,17 +82,20 @@ class PaystackSettings(Document):
 
 @frappe.whitelist(allow_guest=True)
 def verify_payment():
-    if(frappe.request and frappe.request.data):
-        res = json.loads(frappe.request.data)
-        frappe.log_error(res, 'charge.success')
-        # if(res["event"] == "charge.success"):
-        #     frappe.log_error(res["data"], 'charge.success')
-        #     frappe.log_error(res["data"]["metadata"], 'metadata')
-        #     frappe.local.response['http_status_code'] = 200
-        # else:
-        #     pass
-    else:
-        return frappe.throw("No data")
+    # if(frappe.request and frappe.request.data):
+    #     res = json.loads(frappe.request.data)
+    #     frappe.log_error(res, 'charge.success')
+    #     # if(res["event"] == "charge.success"):
+    #     #     frappe.log_error(res["data"], 'charge.success')
+    #     #     frappe.log_error(res["data"]["metadata"], 'metadata')
+    #     #     frappe.local.response['http_status_code'] = 200
+    #     # else:
+    #     #     pass
+    # else:
+    #     return frappe.throw("No data")
+    
+    frappe.log_error(frappe.request.method, "Request made")
+    frappe.log_error(str(frappe.request.__dict__), "Dictionary made")
 
 # use postman to send a simulated paystack success event and write the logic to update the appropriate sale order.
         # write another function to run and release held up stocks after a set time
