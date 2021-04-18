@@ -122,8 +122,7 @@ def verify_payment_callback(**args):
             # pr_doc = frappe.get_doc('Payment Request', pr_id)
             try:
                 doc = frappe.get_doc("Payment Request", pr_id)
-                if doc.status == 'Requested':
-                    return doc.create_payment_entry(submit=True)
+                return doc.create_payment_entry(submit=True)
             except frappe.DoesNotExistError:
                 pass
     else:
