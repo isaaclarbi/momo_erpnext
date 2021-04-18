@@ -117,6 +117,10 @@ def verify_payment_callback(**args):
 
     if(response["status"]):
         if(response["data"]["status"]=="success"):
-            frappe.log_error(response["data"]["metadata"]["order_id"],'order_id verified')
+            pr_id = response["data"]["metadata"]["order_id"]
+            frappe.log_error(pr_id, 'order_id verified')
+            pr_doc = frappe.get_doc('Payment Request', pr_id)
+            pr_doc.status = "Paid"
+            pr_doc.save()
     else:
         frappe.throw(response.message or 'Verification call to Paystack Failed', "Verification call to Paystack Failed")
