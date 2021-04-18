@@ -104,9 +104,9 @@ def verify_payment():
 @frappe.whitelist(allow_guest=True)
 def verify_payment_callback(**args):
     # Get transaction reference from callback url
-    args = frappe._dict(args)
+    transaction_ref = frappe._dict(args.reference)
 
-    url =  "https://api.paystack.co/transaction/verify/"+args.transaction_ref
+    url =  "https://api.paystack.co/transaction/verify/"+transaction_ref
     secret_key = "sk_test_263963288e790e94b572398d0ee801a57e0a7b9c"
     headers = {
         "Authorization": "Bearer "+secret_key
