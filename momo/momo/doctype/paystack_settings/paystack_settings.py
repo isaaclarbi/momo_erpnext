@@ -121,8 +121,8 @@ def verify_payment_callback(**args):
             frappe.log_error(pr_id, 'order_id verified')
             # pr_doc = frappe.get_doc('Payment Request', pr_id)
             try:
-		        doc = frappe.get_doc("Payment Request", pr_id)
-		        if doc.status == 'Initiated':
+                doc = frappe.get_doc("Payment Request", pr_id)
+                if doc.status == 'Initiated':
                     return doc.create_payment_entry(submit=True)
                 except frappe.DoesNotExistError:
                     pass
