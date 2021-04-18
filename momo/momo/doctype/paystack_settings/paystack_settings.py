@@ -106,7 +106,7 @@ def verify_payment_callback(**args):
     # Get transaction reference from callback url
     args = frappe._dict(args)
 
-    url =  "https://api.paystack.co/transaction/verify/"+args.transaction_ref
+    url =  "https://api.paystack.co/transaction/verify/"+args.reference
     secret_key = "sk_test_263963288e790e94b572398d0ee801a57e0a7b9c"
     headers = {
         "Authorization": "Bearer "+secret_key
