@@ -102,8 +102,6 @@ def verify_payment():
         # Return res 200 for paystack to stop sending webhook event
 
 @frappe.whitelist(allow_guest=True)
-def verify_payment_callback():
-    print(frappe.request.path)
-    url = frappe.request.path
-    ref_list = url.split("/")
-    frappe.throw(ref_list,"path")
+def verify_payment_callback(**args):
+    args = frappe._dict(args)
+    frappe.throw(ref_list,args.reference)
