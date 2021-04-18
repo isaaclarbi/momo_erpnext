@@ -124,8 +124,8 @@ def verify_payment_callback(**args):
                 doc = frappe.get_doc("Payment Request", pr_id)
                 if doc.status == 'Initiated':
                     return doc.create_payment_entry(submit=True)
-                except frappe.DoesNotExistError:
-                    pass
+            except frappe.DoesNotExistError:
+                pass
     else:
         frappe.throw(response.message or 'Verification call to Paystack Failed', "Verification call to Paystack Failed")
 
