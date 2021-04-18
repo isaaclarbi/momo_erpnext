@@ -103,5 +103,20 @@ def verify_payment():
 
 @frappe.whitelist(allow_guest=True)
 def verify_payment_callback(**args):
-    args = frappe._dict(args)
-    frappe.throw(args.reference,'reference')
+    # Get transaction reference from callback url
+    transaction_ref = frappe._dict(args.reference)
+
+    url =  "https://api.paystack.co/transaction/verify/"+transaction_ref
+    secret_key = "sk_test_263963288e790e94b572398d0ee801a57e0a7b9c"
+    headers = {
+        "Authorization": "Bearer "+secret_key
+        }
+    r = requests.get(url, headers=headers)
+    response = r.json()
+    # print(response)
+
+    if(response["status"]):
+        if(response["data"]["status"]=="success"):
+            print(response["data"]["metadata"]["order_id"],'order_id verified')
+    else:
+        print(response.message or 'Verification call to Paystack Failed', "Verification call to Paystack Failed")
