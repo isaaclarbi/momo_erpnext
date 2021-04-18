@@ -100,3 +100,10 @@ def verify_payment():
 # use postman to send a simulated paystack success event and write the logic to update the appropriate sale order.
         # write another function to run and release held up stocks after a set time
         # Return res 200 for paystack to stop sending webhook event
+
+@frappe.whitelist(allow_guest=True)
+def verify_payment_callback():
+    print(frappe.request.path)
+    url = frappe.request.path
+    ref_list = url.split("/")
+    frappe.throw(ref_list,"path")
