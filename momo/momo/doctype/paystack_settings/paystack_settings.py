@@ -104,4 +104,4 @@ def verify_payment():
 @frappe.whitelist(allow_guest=True)
 def verify_payment_callback(**args):
     args = frappe._dict(args)
-    frappe.throw(ref_list,args.reference)
+    frappe.throw(args.reference,'reference')
