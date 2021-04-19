@@ -117,8 +117,8 @@ def verify_payment_callback(**args):
 
     if(response["status"]):
         if(response["data"]["status"]=="success"):
-            pr_id = response["data"]["metadata"]["order_id"]
-            frappe.log_error(pr_id, 'order_id verified')
+            pr_id = response["data"]["metadata"]["payment_request_id"]
+            frappe.log_error(pr_id, 'payment_request_id verified')
             # pr_doc = frappe.get_doc('Payment Request', pr_id)
             try:
                 #Fetch Payment Request that was created
