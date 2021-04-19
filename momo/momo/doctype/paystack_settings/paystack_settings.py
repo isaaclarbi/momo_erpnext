@@ -54,7 +54,8 @@ class PaystackSettings(Document):
             "currency": "GHS",
             "email": email,
             "metadata": {
-                "order_id": reference
+                "payment_request_id": reference,
+                "sales_order_id": 
             }
         }
 
@@ -121,8 +122,12 @@ def verify_payment_callback(**args):
             frappe.log_error(pr_id, 'order_id verified')
             # pr_doc = frappe.get_doc('Payment Request', pr_id)
             try:
-                doc = frappe.get_doc("Payment Request", pr_id)
-                return doc.create_payment_entry(submit=True)
+                #Fetch Payment Request that was created
+                pr_doc = frappe.get_doc("Payment Request", pr_id)
+                #Get 
+                so_doc = frappe.get_doc('Sales Order',pr_doc.reference_name)
+                return so_doc
+                # return pr_doc.create_payment_entry(submit=True)
             except frappe.DoesNotExistError:
                 pass
     else:
