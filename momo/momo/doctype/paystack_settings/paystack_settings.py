@@ -54,8 +54,7 @@ class PaystackSettings(Document):
             "currency": "GHS",
             "email": email,
             "metadata": {
-                "payment_request_id": reference,
-                "sales_order_id": 
+                "payment_request_id": reference
             }
         }
 
