@@ -120,6 +120,12 @@ app_license = "MIT"
 # 	]
 # }
 
+scheduler_events = {
+	"all": [
+		"momo.momo.utils.update_paid_requests"
+	],
+}
+
 # Testing
 # -------
 

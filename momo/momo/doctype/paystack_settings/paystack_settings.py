@@ -6,6 +6,7 @@ import requests
 from frappe.integrations.utils import create_payment_gateway
 from frappe.model.document import Document
 from frappe.utils import call_hook_method, nowdate
+from erpnext.selling.doctype.sales_order.sales_order import make_sales_invoice, make_delivery_note
 # import random
 # import string
 # from paystack.resource import TransactionResource
@@ -35,7 +36,7 @@ class PaystackSettings(Document):
             fieldname='secret_key', raise_exception=False)
         amount = kwargs.get('amount') * 100
         description = kwargs.get('description')
-        reference = kwargs.get('reference_docname')
+        payment_request_id = kwargs.get('reference_docname')
         email = kwargs.get('payer_email')
 
         url = "https://api.paystack.co/transaction/initialize/"
@@ -44,17 +45,25 @@ class PaystackSettings(Document):
         #     'customer_name': kwargs.get('payer_name')
         # }
         headers = {
-            "Authorization": "Bearer "+secret_key,
+            "Authorization": "Bearer " + secret_key,
             "Cache-Control": "no-cache",
             "Content-Type": "application/json"
         }
 
+        # reference_html = "<a href=\"https://kellypee.theadvisorylab.net/app/payment-request/{0}\" target=\"_blank\">{0}</a>".format(reference)
         data = {
             "amount": amount,
             "currency": "GHS",
             "email": email,
             "metadata": {
-                "payment_request_id": reference
+                "payment_request_id": payment_request_id,
+                "custom_fields":[
+                        {
+                            "display_name":"Payment Request ID",
+                            "variable_name":"pr_id",
+                            "value": payment_request_id
+                        }
+                ]
             }
         }
 
@@ -64,20 +73,35 @@ class PaystackSettings(Document):
 
         successful = res_json['status'] == True
         failed = res_json['status'] == False
+        
+
         if(successful):
+            #Get data from response
             authorization_url = res_json['data']['authorization_url']
+            access_code = res_json['data']['access_code']
+            reference = res_json['data']['reference']
+            # payment_request_doc = frappe.get_doc("Payment Request", payment_request_id)
+
+            #Save authorization url, access code, reference and payment request in Transaction Response doctype
+            try:
+                transaction_response_doc = frappe.get_doc({
+                    'doctype': 'Transaction Response',
+                    'authorization_url':authorization_url,
+                    'access_code': access_code,
+                    'reference': reference,
+                    'payment_request':payment_request_id
+                })
+
+                transaction_response_doc.insert(ignore_permissions=True)
+                frappe.db.commit()
+
+            except Exception as e:
+                s = str(e)
+                frappe.log_error(s, "Error: Saving Transaction Response to DB")
+
             return authorization_url
         elif(failed):
-            frappe.throw("Request failed with message: " + res_json['message'])
-
-        # Use paystakk package
-        # rand = ''.join([random.choice(
-    #     string.ascii_letters + string.digits) for n in range(16)])
-        # secret_key = self.get_password(fieldname='secret_key', raise_exception=False)
-        # random_ref = rand
-        # client = TransactionResource(secret_key, random_ref)
-        # response = client.initialize(amount,email)
-        # return response['data']['authorization_url']
+            frappe.log_error(res_json['message'],"get_payment_url failed")
 
 
 @frappe.whitelist(allow_guest=True)
@@ -93,9 +117,9 @@ def verify_payment():
     #     #     pass
     # else:
     #     return frappe.throw("No data")
-    
-    frappe.log_error(frappe.request.method, "Request made")
-    frappe.log_error(str(frappe.request.__dict__), "Dictionary made")
+    if(frappe.request.data):
+        frappe.log_error(str(frappe.request.data), "POST request log")
+    frappe.local.response['http_status_code'] = 200
 
 # use postman to send a simulated paystack success event and write the logic to update the appropriate sale order.
         # write another function to run and release held up stocks after a set time
@@ -113,6 +137,7 @@ def verify_payment_callback(**args):
         }
     r = requests.get(url, headers=headers)
     response = r.json()
+    
     # print(response)
 
     if(response["status"]):
@@ -123,10 +148,15 @@ def verify_payment_callback(**args):
             try:
                 #Fetch Payment Request that was created
                 pr_doc = frappe.get_doc("Payment Request", pr_id)
-                #Get 
-                so_doc = frappe.get_doc('Sales Order',pr_doc.reference_name)
-                return so_doc
-                # return pr_doc.create_payment_entry(submit=True)
+                #Get Sales Order Document
+                so_doc = frappe.get_doc('Sales Order', pr_doc.reference_name)
+                #Create Delivery Note
+                # make_sales_invoice(so_doc.name)
+                #Create Sales Invoice
+                # make_delivery_note(so_doc.name)
+                # frappe.db.commit()
+                return pr_doc.create_payment_entry(submit=True)
+
             except frappe.DoesNotExistError:
                 pass
     else:
